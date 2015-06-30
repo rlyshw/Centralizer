@@ -7,4 +7,4 @@ module.exports = function(req, res) {
   else if (req.url=="/public.js") {
     fs.createReadStream("public.js").pipe(res);
   }
-}
+};
