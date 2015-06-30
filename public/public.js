@@ -1,4 +1,4 @@
-var centralSocket = new WebSocket("ws://localhost:3000", "DOTP");
+var centralSocket = new WebSocket("ws://localhost:3001", "DOTP");
 centralSocket.onopen = function(event) {
   centralSocket.send("Here is some data!");
 };
