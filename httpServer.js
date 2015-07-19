@@ -10,23 +10,14 @@ var io = require('socket.io')(server);
 var everyEvent = 'blur change click dblclick error focus focusin focusout hover keydown keypress keyup load mousedown mouseenter mouseleave mousemove mouseout mouseover mouseup resize scroll select submit';
 
 var jsdom = require("jsdom");
-jsdom.env("./shared.html", ["http://code.jquery.com/jquery.js","https://rawgit.com/ducksboard/gridster.js/master/dist/jquery.gridster.min.js", "./shared.js"],
+jsdom.env("./shared.html", ["http://code.jquery.com/jquery.js","./shared.js"],
 function(errors, window){
-  gridtster = window.$(".gridster > ul").gridster({
-    widget_margins: [10, 10],
-    widget_base_dimensions: [140, 140],
-    min_cols: 6
-  }).data('gridster');
+  var canvas = window.$(".mainCanvas")[0];
   io.on('connection', function(socket){
-    socket.emit('data', window.$("html").html());
+    socket.emit('init', canvas.innerHTML);
     socket.on("event", function(data){
-      if(data.type){
-        window.$(".demo").trigger(data);
-        socket.broadcast.emit("data", window.$("html").html());
-        return;
-      }
-      window.document.documentElement.innerHTML = data;
-      socket.broadcast.emit("data", window.$("html").html());
+      canvas.innerHTML = data;
+      socket.broadcast.emit("canvas.update", canvas.html());
     });
   });
 });
