@@ -16,8 +16,9 @@ function(errors, window){
   io.on('connection', function(socket){
     socket.emit('init', canvas.innerHTML);
     socket.on("event", function(data){
+      console.log(data);
       canvas.innerHTML = data;
-      socket.broadcast.emit("canvas.update", canvas.html());
+      socket.broadcast.emit("canvas.update", canvas.html);
     });
   });
 });
